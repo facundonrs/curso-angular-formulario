@@ -6,6 +6,8 @@ import { FormularioComponent } from './formulario/formulario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
   imports: [
     BrowserModule,
     FormsModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule, BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
