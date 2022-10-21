@@ -1,0 +1,17 @@
+<h1 appTituloStyle>Listado de cursos</h1>
+
+<div class="d-flex justify-content-between gap-3">
+    <mat-card *ngFor="let curso of cursosPromise | async">
+        <mat-card-title>{{curso.nombre}}</mat-card-title>
+        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+        <mat-card-content>
+            <p>Fecha de inicio: {{ curso.fecha_desde | date:'dd/MM/yyyy'}}</p>
+            <p>{{ curso.descripcion }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary">Inscribirse</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
+
+

@@ -12,6 +12,7 @@ import { ListadoAlumnosComponent } from './componentes/listado-alumnos/listado-a
 import { AbmAlumnosComponent } from './componentes/abm-alumnos/abm-alumnos.component';
 import { NombreCompletoPipe } from './pipes/nombre-completo.pipe';
 import { TituloStyleDirective } from './directives/titulo-style.directive';
+import { ListadoCursosComponent } from './componentes/listado-cursos/listado-cursos.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { TituloStyleDirective } from './directives/titulo-style.directive';
     AbmAlumnosComponent,
     NombreCompletoPipe,
     TituloStyleDirective,
+    ListadoCursosComponent,
 
   ],
   imports: [
