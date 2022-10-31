@@ -1,0 +1,177 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <mat-card>
+            <mat-card-title>Nuevo alumno</mat-card-title>
+
+            <form [formGroup]="formulario" class="needs-validation" novalidate>
+                <div class="d-flex gap-3">
+
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="nombre">   
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('nombre')?.invalid && (formulario.get('nombre')?.dirty || formulario.get('nombre')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('nombre')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div> 
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('nombre')?.errors?.['pattern']">
+                                No debe contener caracteres especiales o números 
+                            </div>
+                        </mat-error>
+                    </div>
+
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Apellido</mat-label>
+                            <input matInput formControlName="apellido">
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('apellido')?.invalid && (formulario.get('apellido')?.dirty || formulario.get('apellido')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('apellido')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div> 
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('apellido')?.errors?.['pattern']">
+                                No debe contener caracteres especiales o números 
+                            </div>
+                        </mat-error>
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-3">
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>DNI</mat-label>
+                            <input matInput formControlName="dni">
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('dni')?.invalid && (formulario.get('dni')?.dirty || formulario.get('dni')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('dni')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div>
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('dni')?.errors?.['pattern']">
+                                El DNI ingresado debe ser un número entre 6 y 8 dígitos
+                            </div>
+                        </mat-error>
+                    </div>
+
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Fecha de nacimiento</mat-label>
+                            <input matInput [matDatepicker]="fecha_nacimiento" formControlName="fecha_nacimiento">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="fecha_nacimiento"></mat-datepicker-toggle>
+                            <mat-datepicker #fecha_nacimiento></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('fecha_nacimiento')?.invalid && (formulario.get('fecha_nacimiento')?.dirty || formulario.get('fecha_nacimiento')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('fecha_nacimiento')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div>
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('fecha_nacimiento')?.errors?.['edad']">
+                                Usted debe ser mayor de 18 años. 
+                            </div>
+                        </mat-error>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-3">
+
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Pais</mat-label>
+                            <mat-select formControlName="pais" (selectionChange)="handlerPaises($event)">
+                                <mat-option [value]="null">Seleccione un país</mat-option>
+                                <mat-option *ngFor="let pais of paises" [value]="pais.id"> {{ pais.nombre }} </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('pais')?.invalid && (formulario.get('pais')?.dirty || formulario.get('pais')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('pais')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div> 
+                        </mat-error>
+                    </div>
+
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Ciudad</mat-label>
+                            <mat-select formControlName="ciudad">
+                                <mat-option [value]="null">Seleccione una ciudad</mat-option>
+                                <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad.id"> {{ ciudad.nombre }} </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('ciudad')?.invalid && (formulario.get('ciudad')?.dirty || formulario.get('ciudad')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('ciudad')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div> 
+                        </mat-error>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-3">
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="email">   
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('email')?.invalid && (formulario.get('email')?.dirty || formulario.get('email')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('email')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div> 
+                        </mat-error>
+                    </div>
+
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Celular</mat-label>
+                            <input matInput formControlName="celular">   
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('celular')?.invalid && (formulario.get('celular')?.dirty || formulario.get('celular')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('celular')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div> 
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('celular')?.errors?.['pattern']">
+                                Este debe ser numerico 
+                            </div> 
+                        </mat-error>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-3">
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Domicilio</mat-label>
+                            <input matInput formControlName="domicilio">   
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+
+                <div class="d-flex gap-3">
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Password</mat-label>
+                            <input matInput formControlName="password">
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('password')?.invalid && (formulario.get('password')?.dirty || formulario.get('password')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('password')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div>
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('password')?.errors?.['pattern']">
+                                El password debe tener como mínimo 8 caracteres, al menos una mayúscula, una minúscular y un número.
+                            </div> 
+                        </mat-error>
+                    </div>
+                </div>
+
+                <button mat-raised-button color="primary" (click)="handlerSubmit()" 
+                >Agregar</button>
+            </form>
+
+            
+        </mat-card>
+
+    </div>
+
+</div>
+
+

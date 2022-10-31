@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-md-12">
+        <mat-card>
+            <mat-card-title>Nuevo alumno</mat-card-title>
+
+            <form [formGroup]="formulario" class="needs-validation" novalidate>
+                <div class="d-flex gap-3">
+
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="nombre">   
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('nombre')?.invalid && (formulario.get('nombre')?.dirty || formulario.get('nombre')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('nombre')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div> 
+                        </mat-error>
+                    </div>
+
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Fecha desde</mat-label>
+                            <input matInput [matDatepicker]="fecha_desde" formControlName="fecha_desde">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="fecha_desde"></mat-datepicker-toggle>
+                            <mat-datepicker #fecha_desde></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('fecha_desde')?.invalid && (formulario.get('fecha_desde')?.dirty || formulario.get('fecha_desde')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('fecha_desde')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div>
+                        </mat-error>
+                    </div>
+
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Fecha hasta</mat-label>
+                            <input matInput [matDatepicker]="fecha_hasta" formControlName="fecha_hasta">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="fecha_hasta"></mat-datepicker-toggle>
+                            <mat-datepicker #fecha_hasta></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('fecha_hasta')?.invalid && (formulario.get('fecha_hasta')?.dirty || formulario.get('fecha_hasta')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('fecha_hasta')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div>
+                        </mat-error>
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-3">
+
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Descripcion</mat-label>
+                            <textarea  matInput formControlName="descripcion"></textarea>
+                        </mat-form-field>
+                        
+                        <mat-error *ngIf="formulario.get('descripcion')?.invalid && (formulario.get('descripcion')?.dirty || formulario.get('descripcion')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('descripcion')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div> 
+                        </mat-error>
+                    </div>
+                    
+                </div>
+
+                <button mat-raised-button color="primary" (click)="handlerSubmit()" 
+                >Agregar</button>
+            </form>
+
+            
+        </mat-card>
+
+    </div>
+
+</div>
+
