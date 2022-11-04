@@ -8,6 +8,6 @@ export interface Alumno {
     ciudadId: number;
     password: string;
     email: string;
-    celular: number;
+    celular: string;
     domicilio: string;
 }

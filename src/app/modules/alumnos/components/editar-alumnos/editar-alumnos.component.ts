@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 import { Datos } from 'src/app/data/datos';
 import { Alumno } from 'src/app/models/alumno';
 import { ICiudad } from 'src/app/models/ciudad';
 import { IPais } from 'src/app/models/pais';
-import { AlumnosService } from 'src/app/services/alumnos.service';
+import { AlumnosService } from 'src/app/modules/alumnos/services/alumnos.service';
+import { PaisesService } from 'src/app/services/paises.service';
 
 @Component({
   selector: 'app-editar-alumnos',
@@ -18,7 +20,7 @@ export class EditarAlumnosComponent implements OnInit {
     public id: number = 0;
     public resultado: any;
 
-    public paises: IPais[] = Datos.paises;
+    public paises: IPais[] = [] // Datos.paises;
   
     public ciudades: ICiudad[] = [];
   
@@ -54,36 +56,74 @@ export class EditarAlumnosComponent implements OnInit {
   
     constructor(
       private fb: FormBuilder,
-      private alumnosServive: AlumnosService,
+      private alumnosService: AlumnosService,
+      private paisesService: PaisesService,
       private router: Router,
       private activatedRoute: ActivatedRoute,
     ) { }
   
     ngOnInit(): void {
-        this.activatedRoute.paramMap.subscribe((parametros) => {
-            console.log(parametros);
-            console.log(parametros.get('ciudadId') );
-            this.id = parseInt(parametros.get('id') || '0');
-            this.formulario.controls.nombre.setValue( parametros.get('nombre') );
-            this.formulario.controls.apellido.setValue( parametros.get('apellido') );
-            this.formulario.controls.dni.setValue( parametros.get('dni') );
+        //obtiene los paises
+        const paises$ = this.paisesService.obtenerPaises();
 
-            const stringDate = String(parametros.get('fechaNacimiento'));
-            const date = new Date(stringDate);
+        const routeParam$ = paises$.pipe(
+            switchMap( (data: IPais[]) => {
+                console.log(data);
+                this.paises = data;
+                return this.activatedRoute.paramMap
+            })
+        )
+
+        routeParam$.subscribe(
+            (parametros) => {
+                console.log('parametros', parametros);
+                console.log(parametros.get('ciudadId') );
+                this.id = parseInt(parametros.get('id') || '0');
+                this.formulario.controls.nombre.setValue( parametros.get('nombre') );
+                this.formulario.controls.apellido.setValue( parametros.get('apellido') );
+                this.formulario.controls.dni.setValue( parametros.get('dni') );
+
+                const stringDate = String(parametros.get('fechaNacimiento'));
+                const date = new Date(stringDate);
+                
+                this.formulario.controls.fecha_nacimiento.setValue( date );
+                this.formulario.controls.pais.setValue( Number(parametros.get('paisId')) );
+
+                const pais = this.paises.find( (item) => item.id == Number(parametros.get('paisId')))!;
+                this.ciudades = pais.ciudades;
+
+                this.formulario.controls.ciudad.setValue( Number(parametros.get('ciudadId')) );
+                this.formulario.controls.password.setValue( parametros.get('password') );
+                this.formulario.controls.email.setValue( parametros.get('email') );
+                this.formulario.controls.celular.setValue( parametros.get('celular') );
+                this.formulario.controls.domicilio.setValue( parametros.get('domicilio') );
+            }
+        )
+
+        // this.activatedRoute.paramMap.subscribe((parametros) => {
+        //     console.log(parametros);
+        //     console.log(parametros.get('ciudadId') );
+        //     this.id = parseInt(parametros.get('id') || '0');
+        //     this.formulario.controls.nombre.setValue( parametros.get('nombre') );
+        //     this.formulario.controls.apellido.setValue( parametros.get('apellido') );
+        //     this.formulario.controls.dni.setValue( parametros.get('dni') );
+
+        //     const stringDate = String(parametros.get('fechaNacimiento'));
+        //     const date = new Date(stringDate);
             
-            this.formulario.controls.fecha_nacimiento.setValue( date );
-            this.formulario.controls.pais.setValue( Number(parametros.get('paisId')) );
+        //     this.formulario.controls.fecha_nacimiento.setValue( date );
+        //     this.formulario.controls.pais.setValue( Number(parametros.get('paisId')) );
 
-            const pais = this.paises.find( (item) => item.id == Number(parametros.get('paisId')))!;
-            this.ciudades = pais.ciudades;
+        //     const pais = this.paises.find( (item) => item.id == Number(parametros.get('paisId')))!;
+        //     this.ciudades = pais.ciudades;
 
-            this.formulario.controls.ciudad.setValue( Number(parametros.get('ciudadId')) );
-            this.formulario.controls.password.setValue( parametros.get('password') );
-            this.formulario.controls.email.setValue( parametros.get('email') );
-            this.formulario.controls.celular.setValue( parametros.get('celular') );
-            this.formulario.controls.domicilio.setValue( parametros.get('domicilio') );
+        //     this.formulario.controls.ciudad.setValue( Number(parametros.get('ciudadId')) );
+        //     this.formulario.controls.password.setValue( parametros.get('password') );
+        //     this.formulario.controls.email.setValue( parametros.get('email') );
+        //     this.formulario.controls.celular.setValue( parametros.get('celular') );
+        //     this.formulario.controls.domicilio.setValue( parametros.get('domicilio') );
 
-          })
+        //   })
     }
   
     
@@ -126,9 +166,9 @@ export class EditarAlumnosComponent implements OnInit {
             celular: this.formulario.value.celular,
             domicilio: this.formulario.value.domicilio
           };
-          console.log(alumno);
-          this.alumnosServive.editarAlumno(alumno);
-          this.router.navigate(['alumnos/listado']); 
+          this.alumnosService.editarAlumno(alumno).subscribe((a) => {
+            this.router.navigate(['alumnos/listado']); 
+          });
     }
   
     public verificarDatos() {
@@ -136,6 +176,10 @@ export class EditarAlumnosComponent implements OnInit {
           const control = this.formulario.get(field)!;
           control.markAsTouched({ onlySelf: true });
       });
+    }
+
+    public handlerVolver() {
+        this.router.navigate(['alumnos/listado']);
     }
 
 }

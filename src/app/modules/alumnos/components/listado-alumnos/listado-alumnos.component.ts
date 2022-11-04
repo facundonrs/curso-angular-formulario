@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Alumno } from 'src/app/models/alumno';
-import { AlumnosService } from 'src/app/services/alumnos.service';
+import { AlumnosService } from 'src/app/modules/alumnos/services/alumnos.service';
 
 @Component({
   selector: 'app-listado-alumnos',
@@ -34,10 +34,8 @@ export class ListadoAlumnosComponent implements OnInit, OnDestroy {
   }
 
   public populateTable() :void {
-    this.alumnosSubscription = this.alumnosService.obtenerAlumnos().subscribe({
-        next: (data) => {
-            this.dataSource.data = data;
-        }
+    this.alumnosSubscription = this.alumnosService.obtenerAlumnos().subscribe((data) => {
+        this.dataSource = new MatTableDataSource(data);
     })
   }
 
@@ -52,8 +50,9 @@ export class ListadoAlumnosComponent implements OnInit, OnDestroy {
   }
 
   eliminarAlumno(id: number){
-    this.alumnosService.eliminarAlumno(id);
-    this.populateTable();
+    this.alumnosService.eliminarAlumno(id).subscribe((a) => {
+        this.populateTable();
+    });
   }
 
   ngOnDestroy(): void {

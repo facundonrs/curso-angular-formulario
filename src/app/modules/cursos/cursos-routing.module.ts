@@ -6,13 +6,13 @@ import { EditarCursosComponent } from './components/editar-cursos/editar-cursos.
 import { ListadoCursosComponent } from './components/listado-cursos/listado-cursos.component';
 
 const routes: Routes = [
-    { path: 'cursos', component: CursosPageComponent, children: [
-        { path: '', redirectTo: 'listado', pathMatch: 'full'},
+    { path: '', component: CursosPageComponent, children: [
         { path: 'crear', component: CrearCursosComponent },
         { path: 'editar', component: EditarCursosComponent },
         { path: 'listado', component: ListadoCursosComponent },
+        { path: '', redirectTo: 'listado', pathMatch: 'full'},
       ]
-    }
+    } 
 ];
 
 @NgModule({

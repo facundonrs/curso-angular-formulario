@@ -7,11 +7,11 @@ import { EditarAlumnosComponent } from './components/editar-alumnos/editar-alumn
 import { ListadoAlumnosComponent } from './components/listado-alumnos/listado-alumnos.component';
 
 const routes: Routes = [
-    { path: 'alumnos', component: AlumnosPageComponent, children: [
-        { path: '', redirectTo: 'listado', pathMatch: 'full'},
+    { path: '', component: AlumnosPageComponent, children: [
         { path: 'crear', component: CrearAlumnosComponent },
         { path: 'editar', component: EditarAlumnosComponent },
         { path: 'listado', component: ListadoAlumnosComponent },
+        { path: '', redirectTo: 'listado', pathMatch: 'full'},
       ]
     },
 ];

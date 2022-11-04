@@ -3,7 +3,8 @@ import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
-import { AlumnosService } from 'src/app/services/alumnos.service';
+import { AlumnosService } from 'src/app/modules/alumnos/services/alumnos.service';
+import { PaisesService } from 'src/app/services/paises.service';
 
 interface IPais{
     id: number;
@@ -25,35 +26,7 @@ export class CrearAlumnosComponent implements OnInit {
 
     public resultado: any;
 
-    public paises: IPais[] = [
-      {
-        id: 1,
-        nombre: "Argentina",
-        ciudades: [
-          {id: 1, nombre: "Buenos Aires"},
-          {id: 2, nombre: "Córdoba"},
-          {id: 3, nombre: "La Rioja"}
-        ]
-      },
-      {
-        id: 2,
-        nombre: "Uruguay",
-        ciudades: [
-          {id: 1, nombre: "Montevideo"},
-          {id: 2, nombre: "Paysandú"},
-          {id: 3, nombre: "Salto"}
-        ]
-      },
-      {
-        id: 3,
-        nombre: "Paraguay",
-        ciudades: [
-          {id: 1, nombre: "Asunción"},
-          {id: 2, nombre: "Ciudad del Este"},
-          {id: 3, nombre: "Luque"}
-        ]
-      },
-    ];
+    public paises: IPais[] = [];
   
     public ciudades: ICiudad[] = [];
   
@@ -89,11 +62,17 @@ export class CrearAlumnosComponent implements OnInit {
   
     constructor(
       private fb: FormBuilder,
+      private paisesService: PaisesService,
       private alumnosServive: AlumnosService,
       private router: Router
     ) { }
   
     ngOnInit(): void {
+        const paises$ = this.paisesService.obtenerPaises();
+
+        paises$.subscribe((data) => {
+            this.paises = data
+        });
     }
   
     
@@ -137,8 +116,9 @@ export class CrearAlumnosComponent implements OnInit {
             domicilio: this.formulario.value.domicilio
           };
           console.log(alumno);
-          this.alumnosServive.agregarAlumno(alumno);
-          this.router.navigate(['alumnos/listado']); 
+          this.alumnosServive.agregarAlumno(alumno).subscribe((a) => {
+            this.router.navigate(['alumnos/listado']); 
+          });
     }
   
     public verificarDatos() {
@@ -146,6 +126,10 @@ export class CrearAlumnosComponent implements OnInit {
           const control = this.formulario.get(field)!;
           control.markAsTouched({ onlySelf: true });
       });
+    }
+
+    public handlerVolver() {
+        this.router.navigate(['alumnos/listado']);
     }
 
 }

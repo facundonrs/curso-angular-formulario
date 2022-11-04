@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Curso } from 'src/app/models/curso';
-import { CursosService } from 'src/app/services/cursos.service';
+import { CursosService } from 'src/app/modules/cursos/services/cursos.service';
 
 @Component({
   selector: 'app-editar-cursos',
@@ -63,8 +63,9 @@ export class EditarCursosComponent implements OnInit {
 
         };
 
-        this.cursosService.editarCurso(curso);
-        this.router.navigate(['cursos/listado']); 
+        this.cursosService.editarCurso(curso).subscribe( () => {
+            this.router.navigate(['cursos/listado']); 
+        });
     }
    
      public verificarDatos() {
@@ -73,5 +74,9 @@ export class EditarCursosComponent implements OnInit {
            control.markAsTouched({ onlySelf: true });
        });
      }
+
+    public handlerVolver() {
+        this.router.navigate(['cursos/listado']);
+    }
 
 }

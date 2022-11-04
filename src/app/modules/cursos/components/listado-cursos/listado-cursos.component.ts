@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Curso } from 'src/app/models/curso';
-import { CursosService } from 'src/app/services/cursos.service';
+import { CursosService } from 'src/app/modules/cursos/services/cursos.service';
 
 @Component({
   selector: 'app-listado-cursos',
@@ -20,8 +20,12 @@ export class ListadoCursosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.cargarCursos();
+  }
+
+  public cargarCursos(): void {
     this.cursos$ = this.cursosService.obtenerCursos();
-    //this.cursosPromise = this.cursoService.obtenerCursosComoPromise();
+    console.log(this.cursos$);
   }
 
   editarCurso(curso: Curso){
@@ -29,7 +33,9 @@ export class ListadoCursosComponent implements OnInit {
   }
 
   eliminarCurso(id: number){
-    this.cursosService.eliminarCurso(id);
+    this.cursosService.eliminarCurso(id).subscribe(() => {
+        this.cargarCursos();
+    });
   }
 
 }
