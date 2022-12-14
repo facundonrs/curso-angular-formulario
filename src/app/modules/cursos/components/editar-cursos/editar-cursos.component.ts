@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Curso } from 'src/app/models/curso';
 import { CursosService } from 'src/app/modules/cursos/services/cursos.service';
+import { editarCurso } from '../../state/cursos.actions';
+import { CursoState } from '../../state/cursos.reducer';
 
 @Component({
   selector: 'app-editar-cursos',
@@ -22,14 +25,14 @@ export class EditarCursosComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private cursosService: CursosService,
+        //private cursosService: CursosService,
+        private storeCursos: Store<CursoState>,
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) { }
 
     ngOnInit(): void {
         this.activatedRoute.paramMap.subscribe((parametros) => {
-            console.log(parametros);
             this.id = parseInt(parametros.get('id') || '0');
             this.formulario.controls.nombre.setValue( parametros.get('nombre') );
             this.formulario.controls.descripcion.setValue( parametros.get('descripcion') );
@@ -63,9 +66,11 @@ export class EditarCursosComponent implements OnInit {
 
         };
 
-        this.cursosService.editarCurso(curso).subscribe( () => {
-            this.router.navigate(['cursos/listado']); 
-        });
+        this.storeCursos.dispatch(editarCurso({curso}));
+
+        // this.cursosService.editarCurso(curso).subscribe( () => {
+        //     this.router.navigate(['cursos/listado']); 
+        // });
     }
    
      public verificarDatos() {

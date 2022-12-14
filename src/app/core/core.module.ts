@@ -4,8 +4,10 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
-
-
+import { StoreModule } from '@ngrx/store';
+import { reducer, sessionFeatureKey } from './state/session.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { SessionEffects } from './state/session.effects';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule
+    RouterModule,
+    StoreModule.forFeature(sessionFeatureKey, reducer),
+    EffectsModule.forFeature([SessionEffects])
   ],
   exports: [
     NavbarComponent,

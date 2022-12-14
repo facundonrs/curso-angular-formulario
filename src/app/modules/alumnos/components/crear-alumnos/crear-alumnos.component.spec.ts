@@ -39,11 +39,11 @@ describe('CrearAlumnosComponent', () => {
     formulario.controls.pais.setValue('1');
     formulario.controls.ciudad.setValue('1');
     formulario.controls.password.setValue('Asdsd23432');
+    formulario.controls.username.setValue('username');
     formulario.controls.email.setValue('test@test.com');
     formulario.controls.celular.setValue('3804274107');
     formulario.controls.domicilio.setValue('Calle abc');
 
-    console.log(formulario);
     
     expect(formulario.valid).toBeTrue();
   });
@@ -61,12 +61,11 @@ describe('CrearAlumnosComponent', () => {
     formulario.controls.pais.setValue('1');
     formulario.controls.ciudad.setValue('1');
     formulario.controls.password.setValue('Asdsd23432');
+    formulario.controls.username.setValue('username');
     formulario.controls.email.setValue('test@test.com');
     formulario.controls.celular.setValue('3804274107');
     formulario.controls.domicilio.setValue('Calle abc');
 
-    console.log(formulario);
-    
     expect(formulario.controls.fecha_nacimiento.valid).toBeFalse();
   });
 });

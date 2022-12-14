@@ -1,14 +1,34 @@
 <h1 appTituloStyle>Listado de cursos</h1>
 
-<div class="row">
-    <div class="mb-3">
-        <button [routerLink]="['/cursos/crear']" mat-raised-button color="primary">Agregar curso</button> 
-    </div>
-</div>
+<ng-container *ngIf="session.usuarioActivo?.admin === true">
+    <div class="row">
+        <div class="mb-3">
+            <button [routerLink]="['/cursos/crear']" mat-raised-button color="primary">Agregar curso</button> 
+        </div>
+    </div>    
+</ng-container>
+
+
+<!-- <div class="row" *ngIf="(cargandoCursos$ | async)">
+    <mat-spinner></mat-spinner>
+</div> -->
 
 <div class="row">
+
+    <ng-container *ngIf="cargandoCursos$ | async">
+        <div class="col-12">
+            <div class="row">
+                <div class="spinner-container spinner-center">
+                    <mat-spinner></mat-spinner>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    
+    <div class="col-12">
+        <div class="row">
     <!-- <div class="d-flex justify-content-between gap-3"> -->
-        <div *ngFor="let curso of cursos$ | async" class="col-md-4 p-3">
+        <div *ngFor="let curso of cursos" class="col-md-4 p-3">
             <mat-card >
                 <mat-card-title>{{curso.nombre}}</mat-card-title>
                 <mat-card-content>
@@ -16,17 +36,33 @@
                     <p>{{ curso.descripcion }}</p>
                 </mat-card-content>
                 <mat-card-actions>
-                    <button mat-raised-button color="primary" (click)="editarCurso(curso)">
-                        <mat-icon>edit</mat-icon> Editar
-                    </button>
-    
-                    <button mat-raised-button color="warn" (click)="eliminarCurso(curso.id)">
-                        <mat-icon>delete</mat-icon> Eliminar
-                    </button>
+                    <ng-container *ngIf="session.usuarioActivo?.admin === true">
+                        <button mat-raised-button color="primary" (click)="editarCurso(curso)">
+                            <mat-icon>edit</mat-icon> Editar
+                        </button>
+        
+                        <button mat-raised-button color="warn" (click)="eliminarCurso(curso)">
+                            <mat-icon>delete</mat-icon> Eliminar
+                        </button>
+                    </ng-container>
+
+                    <ng-container *ngIf="session.usuarioActivo?.admin === false">
+                        <button mat-raised-button color="warn" (click)="inscribirmeACurso(curso)">
+                            <mat-icon>new_releases</mat-icon> Inscribirme
+                        </button>
+                    </ng-container>
+                    
+                    
+
+                    <!-- <button mat-raised-button color="success" (click)="inscribirmeCurso(curso.id)">
+                        <mat-icon>add_circle</mat-icon> Inscribirme
+                    </button> -->
                 </mat-card-actions>
             </mat-card>
         </div>
     <!-- </div> -->
+    </div>
+</div>
 </div>
 
 

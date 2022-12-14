@@ -1,0 +1,107 @@
+<ng-container *ngIf="this.usuarioActivo && this.usuarioActivo.admin == false">
+    <h2>Mis inscripciones</h2>
+</ng-container>
+
+<h1 appTituloStyle>Listado</h1>
+<!-- 
+<div class="row">
+    <div>
+        <button [routerLink]="['/alumnos/crear']" mat-raised-button color="primary">Agregar alumno</button> 
+    </div>
+</div> -->
+
+<!-- <div class="row">
+    <div class="col-md-12">
+        <mat-form-field class="w-100">
+            <mat-label>Filtro</mat-label>
+            <input type="text" matInput (keyup)="filtrar($event)">
+        </mat-form-field>
+    </div>
+</div> -->
+
+<ng-container *ngIf="this.usuarioActivo && this.usuarioActivo.admin == true">
+        <div class="row">
+            <div class="p-3">
+                <mat-card>
+                    <mat-card-title class="mb-3">Inscribir alumno</mat-card-title>
+                    <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Seleccione un curso</mat-label>
+                            <mat-select 
+                                (selectionChange)="onChangeCurso($event)">
+                                <mat-option *ngFor="let curso of cursos$ | async" [value]="curso">{{ curso.nombre }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="cursoSeleccionadoError" class="invalid-feedback d-block">
+                            Debe seleccionar un curso
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Seleccione un alumno</mat-label>
+                            <mat-select
+                                (selectionChange)="onChangeAlumno($event)">
+                                <mat-option *ngFor="let alumno of alumnos$ | async" [value]="alumno">{{ alumno.apellido }}, {{ alumno.nombre }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="alumnoSeleccionadoError" class="invalid-feedback d-block">
+                            Debe seleccionar un alumno
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button mat-raised-button color="primary" class="w-100" (click)="inscribir()">Inscribir</button>
+                    </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+</ng-container>
+
+<div class="row">
+    <div class="col-md-12">
+        <table mat-table [dataSource]="dataSource" class="w-100">
+    
+            <!--Curso Id-->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>Id</th>
+                <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+            </ng-container>
+
+            <!--Alumno Nombre-->
+            <ng-container matColumnDef="alumno">
+                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <td mat-cell *matCellDef="let element">{{ element.alumno.nombre }}</td>
+            </ng-container>
+
+            <!--Curso Curso-->
+            <ng-container matColumnDef="curso">
+                <th mat-header-cell *matHeaderCellDef>Curso</th>
+                <td mat-cell *matCellDef="let element">{{ element.curso.nombre }}</td>
+            </ng-container>
+        
+            <!--Fecha Inscripcion-->
+            <ng-container matColumnDef="fecha_inscripcion">
+                <th mat-header-cell *matHeaderCellDef>Fecha de inscripción</th>
+                <td mat-cell *matCellDef="let element">{{ element.fecha_inscripcion | date:'dd/MM/yyyy'}}</td>
+            </ng-container>
+    
+            <!--Acciones-->
+        
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let element">
+        
+                    <button mat-icon-button (click)="eliminarInscripcion(element)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+            
+        </table>
+    </div>
+</div>
+

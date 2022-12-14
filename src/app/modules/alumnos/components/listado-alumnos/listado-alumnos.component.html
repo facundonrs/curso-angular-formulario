@@ -1,6 +1,6 @@
 <h1 appTituloStyle>Listado</h1>
 
-<div class="row">
+<div class="row mb-3">
     <div>
         <button [routerLink]="['/alumnos/crear']" mat-raised-button color="primary">Agregar alumno</button> 
     </div>
@@ -57,7 +57,7 @@
                         <mat-icon>edit</mat-icon>
                     </button>
         
-                    <button mat-icon-button (click)="eliminarAlumno(element.id)">
+                    <button mat-icon-button (click)="eliminarAlumno(element)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </td>

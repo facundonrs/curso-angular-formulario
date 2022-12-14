@@ -2,3 +2,16 @@
     background-color: #191258;
     color: #ffffff;
 }
+.item-menu{
+    padding: 15px 25px;
+    width: 100%;
+    font-size: 1.3em;
+    text-decoration: none;
+    color: #dddddd;
+    display: block;
+
+}
+.item-menu:hover{
+    background-color: #0d6efd;
+    color: #ffffff;
+}

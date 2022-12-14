@@ -5,3 +5,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .w-100{
     width: 100%;
 }
+
+.spinner-container{
+    display: flex;
+}
+
+.spinner-center{
+    align-items: center;
+    justify-content: center;
+}

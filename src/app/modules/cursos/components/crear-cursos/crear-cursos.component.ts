@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Curso } from 'src/app/models/curso';
 import { CursosService } from 'src/app/modules/cursos/services/cursos.service';
+import { agregarCurso } from '../../state/cursos.actions';
+import { CursoState } from '../../state/cursos.reducer';
 
 @Component({
   selector: 'app-crear-cursos',
@@ -20,7 +23,8 @@ export class CrearCursosComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private cursosService: CursosService,
+        private storeCursos: Store<CursoState>,
+        //private cursosService: CursosService,
         private router: Router
     ) { }
 
@@ -44,10 +48,12 @@ export class CrearCursosComponent implements OnInit {
              fecha_hasta: this.formulario.value.fecha_hasta,
 
            };
-           console.log(curso);
-           this.cursosService.agregarCurso(curso).subscribe( () => {
-               this.router.navigate(['cursos/listado']); 
-           });
+           
+
+        this.storeCursos.dispatch(agregarCurso({curso}));
+        //    this.cursosService.agregarCurso(curso).subscribe( () => {
+        //        this.router.navigate(['cursos/listado']); 
+        //    });
      }
    
      public verificarDatos() {

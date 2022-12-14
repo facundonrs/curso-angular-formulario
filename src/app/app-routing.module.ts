@@ -13,14 +13,19 @@ const routes: Routes = [
     { 
         path: 'cursos',
         loadChildren: () => import('./modules/cursos/cursos.module').then((m) => m.CursosModule),
-        canActivate: [AutenticacionGuard]
+        canLoad: [AutenticacionGuard]
     },
     { 
         path: 'alumnos',
         loadChildren: () => import('./modules/alumnos/alumnos.module').then((m) => m.AlumnosModule),
-        canActivate: [AutenticacionGuard]
+        canLoad: [AutenticacionGuard]
     },
-    { path: '', redirectTo: 'autenticacion', pathMatch: 'full'},
+    { 
+        path: 'inscripciones',
+        loadChildren: () => import('./modules/inscripciones/inscripciones.module').then((m) => m.InscripcionesModule),
+        canLoad: [AutenticacionGuard]
+    },
+    { path: '', redirectTo: 'inicio', pathMatch: 'full'},
     // { path: '**', component: PaginaNoEncontradaComponent }
 ];
 

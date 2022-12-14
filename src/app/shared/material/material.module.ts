@@ -9,6 +9,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from "@angular/material/select";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 //import { MatMomentDateModule } from "@angular/material-moment-adapter";
 
 @NgModule({
@@ -21,8 +25,11 @@ import { MatSelectModule } from "@angular/material/select";
         MatCardModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatSelectModule
-        //MatMomentDateModule,
+        MatSelectModule,
+        MatProgressSpinnerModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        MatCheckboxModule
     ],
     exports: [
         MatFormFieldModule,
@@ -32,7 +39,11 @@ import { MatSelectModule } from "@angular/material/select";
         MatIconModule,
         MatCardModule,
         MatDatepickerModule,
-        MatSelectModule
+        MatSelectModule,
+        MatProgressSpinnerModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        MatCheckboxModule
     ]
 })
 export class MaterialModule {}

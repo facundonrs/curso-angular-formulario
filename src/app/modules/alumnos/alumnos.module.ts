@@ -9,7 +9,11 @@ import { FormularioComponent } from './components/formulario/formulario.componen
 import { AlumnosPageComponent } from './components/alumnos-page/alumnos-page.component';
 import { CrearAlumnosComponent } from './components/crear-alumnos/crear-alumnos.component';
 import { EditarAlumnosComponent } from './components/editar-alumnos/editar-alumnos.component';
-
+import { EffectsModule } from '@ngrx/effects';
+import { AlumnosEffects } from './state/alumnos.effects';
+import { StoreModule } from '@ngrx/store';
+import { alumnosFeatureKey, reducer } from './state/alumnos.reducer';
+import { VerMisDatosComponent } from './components/ver-mis-datos/ver-mis-datos.component';
 
 @NgModule({
   declarations: [
@@ -18,12 +22,15 @@ import { EditarAlumnosComponent } from './components/editar-alumnos/editar-alumn
     FormularioComponent,
     AlumnosPageComponent,
     CrearAlumnosComponent,
-    EditarAlumnosComponent
+    EditarAlumnosComponent,
+    VerMisDatosComponent
   ],
   imports: [
     CommonModule,
     AlumnosRoutingModule,
     SharedModule,
+    StoreModule.forFeature(alumnosFeatureKey, reducer),
+    EffectsModule.forFeature([AlumnosEffects])
   ],
 })
 export class AlumnosModule { }

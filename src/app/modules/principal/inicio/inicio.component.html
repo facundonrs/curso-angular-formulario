@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-4 p-3">
+    <div class="col-md-3 p-3">
         <mat-card >
             <mat-card-title>CURSOS</mat-card-title>
             <mat-card-content>
@@ -12,7 +12,7 @@
         </mat-card>
     </div>
 
-    <div class="col-md-4 p-3">
+    <div class="col-md-3 p-3">
         <mat-card >
             <mat-card-title>ALUMNOS</mat-card-title>
             <mat-card-content>
@@ -24,4 +24,32 @@
             </mat-card-actions>
         </mat-card>
     </div>
+
+    <div class="col-md-3 p-3">
+        <mat-card >
+            <mat-card-title>MIS DATOS</mat-card-title>
+            <mat-card-content>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" (click)="verMisDatos()">
+                    <mat-icon>visibility</mat-icon> Ver
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+    <div class="col-md-3 p-3">
+        <mat-card >
+            <mat-card-title>INSCRIPCIONES</mat-card-title>
+            <mat-card-content>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" (click)="verInscripciones()">
+                    <mat-icon>visibility</mat-icon> Ver
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </div>
+
+<app-inscripciones-listado></app-inscripciones-listado>

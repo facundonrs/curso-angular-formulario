@@ -149,6 +149,18 @@
                 <div class="d-flex gap-3">
                     <div class="w-100 mb-3">
                         <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Username</mat-label>
+                            <input matInput formControlName="username">
+                        </mat-form-field>
+                        <mat-error *ngIf="formulario.get('username')?.invalid && (formulario.get('username')?.dirty || formulario.get('username')?.touched)">
+                            <div class="invalid-feedback d-block" *ngIf="formulario.get('username')?.errors?.['required']">
+                                Este campo es obligatorio. 
+                            </div>
+                        </mat-error>
+                    </div>
+
+                    <div class="w-100 mb-3">
+                        <mat-form-field appearance="fill" class="w-100">
                             <mat-label>Password</mat-label>
                             <input matInput formControlName="password">
                         </mat-form-field>
@@ -161,10 +173,14 @@
                             </div> 
                         </mat-error>
                     </div>
+
+                    <div class="w-100 mb-3">
+                        <mat-checkbox formControlName="admin" [disabled]="!this.usuarioActivo.admin">Es Administrador</mat-checkbox>
+                    </div>
                 </div>
 
                 <button mat-raised-button color="primary" (click)="handlerSubmit()" style="margin-right: 10px;"
-                >Agregar</button>
+                >Editar</button>
                 <button mat-raised-button color="warn" (click)="handlerVolver()"
                 >Volver</button>
             </form>

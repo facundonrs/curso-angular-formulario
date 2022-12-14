@@ -1,6 +1,8 @@
+import { Alumno } from "./alumno";
 import { IUsuario } from "./usuario";
 
 export interface ISession {
-    sesionActiva: boolean;
-    usuarioActivo?: IUsuario;
+    sessionActiva: boolean;
+    usuarioActivo?: Alumno;
+    //admin: boolean;
 }

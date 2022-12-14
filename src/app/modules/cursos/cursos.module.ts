@@ -7,7 +7,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CursosPageComponent } from './components/cursos-page/cursos-page.component';
 import { CrearCursosComponent } from './components/crear-cursos/crear-cursos.component';
 import { EditarCursosComponent } from './components/editar-cursos/editar-cursos.component';
-
+import { EffectsModule } from '@ngrx/effects';
+import { CursosEffects } from './state/cursos.effects';
+import { StoreModule } from '@ngrx/store';
+import { cursosFeatureKey, reducer } from './state/cursos.reducer';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,9 @@ import { EditarCursosComponent } from './components/editar-cursos/editar-cursos.
   imports: [
     CommonModule,
     CursosRoutingModule,
-    SharedModule
+    SharedModule,
+    StoreModule.forFeature(cursosFeatureKey, reducer),
+    EffectsModule.forFeature([CursosEffects])
   ],
 })
 export class CursosModule { }

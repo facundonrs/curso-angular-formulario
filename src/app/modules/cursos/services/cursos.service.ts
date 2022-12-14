@@ -22,6 +22,10 @@ export class CursosService {
         return this.http.get<Curso[]>(`${this.base_url}cursos`);
     }
 
+    obtenerCurso(id: number): Observable<Curso>{
+        return this.http.get<Curso>(`${this.base_url}cursos/${id}`);
+    }
+
     agregarCurso(curso: Curso){
         return this.http.post<Curso>(`${this.base_url}cursos/`, curso);
     }
@@ -32,8 +36,8 @@ export class CursosService {
         );
     }
 
-    eliminarCurso(id: number){
-        return this.http.delete<Curso>(`${this.base_url}/cursos/${id}`).pipe(
+    eliminarCurso(curso: Curso){
+        return this.http.delete<Curso>(`${this.base_url}cursos/${curso.id}`).pipe(
             catchError(this.handlerError)
         );
     }

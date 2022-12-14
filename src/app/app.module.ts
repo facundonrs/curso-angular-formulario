@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
@@ -8,6 +8,10 @@ import { AlumnosModule } from './modules/alumnos/alumnos.module';
 import { CursosModule } from './modules/cursos/cursos.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PrincipalModule } from './modules/principal/principal.module';
+import { StoreModule } from '@ngrx/store';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,10 @@ import { PrincipalModule } from './modules/principal/principal.module';
     PrincipalModule,
     FormsModule, 
     ReactiveFormsModule, 
-    BrowserAnimationsModule,
+    BrowserAnimationsModule, 
+    StoreModule.forRoot({}, {}), 
+    EffectsModule.forRoot([]), 
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]

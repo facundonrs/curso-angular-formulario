@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { SessionService } from 'src/app/core/services/session.service';
+import { loginSession } from 'src/app/core/state/session.actions';
+import { SessionState } from 'src/app/core/state/session.reducer';
+import { Alumno } from 'src/app/models/alumno';
 import { IUsuario } from 'src/app/models/usuario';
 
 @Component({
@@ -19,36 +23,36 @@ export class LoginComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private router: Router,
-        private sessionService: SessionService
+        private sessionService: SessionService,
+        private storeSession: Store<SessionState>,
     ) { }
 
     ngOnInit(): void {
     }
 
-    login(){
-
-        this.sessionService.login(this.formulario.value.username, this.formulario.value.password).subscribe(
-            (resp) => {
-                if (resp && resp.length == 1) {
-                    //hago esto aca porque en mockapi no pude obtener por 2 campos
-                    if(resp[0].username == this.formulario.value.username && resp[0].password == this.formulario.value.password){
-                        console.log('si', resp)
-                        //localStorage.setItem('usuario', JSON.stringify(resp));
-                        this.sessionService.session = {
-                            sesionActiva: true,
-                            usuarioActivo: resp[0]
-                        }
-                        this.router.navigate(['inicio']); 
-                    }else{
-                        console.log('no autorizado 2');
-                    }
-                }else{
-                    console.log('no autorizado');
-                }
-            }
-        );
-    }
-
-    
+    public login(){
+        // const usuario: IUsuario = {
+        //     username: this.formulario.value.username,
+        //     password: this.formulario.value.password,
+        //     admin: false
+        // };
+        const usuario: Alumno = {
+            username: this.formulario.value.username,
+            password: this.formulario.value.password,
+            admin: false,
+            nombre: '',
+            apellido: '',
+            dni: 0,
+            fechaNacimiento: new Date(),
+            paisId: 0,
+            ciudadId: 0,
+            email: '',
+            celular: '',
+            domicilio: ''
+        };
+        
+        this.storeSession.dispatch(loginSession({ usuario }));
+       
+    }    
 
 }

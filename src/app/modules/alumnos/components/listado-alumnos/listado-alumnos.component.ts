@@ -1,61 +1,60 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Alumno } from 'src/app/models/alumno';
 import { AlumnosService } from 'src/app/modules/alumnos/services/alumnos.service';
+import { cargarAlumnos, eliminarAlumno } from '../../state/alumnos.actions';
+import { AlumnoState } from '../../state/alumnos.reducer';
+import { selectAlumnos, selectAlumnosCargando } from '../../state/alumnos.selectors';
 
 @Component({
-  selector: 'app-listado-alumnos',
-  templateUrl: './listado-alumnos.component.html',
-  styleUrls: ['./listado-alumnos.component.css']
+    selector: 'app-listado-alumnos',
+    templateUrl: './listado-alumnos.component.html',
+    styleUrls: ['./listado-alumnos.component.css']
 })
 export class ListadoAlumnosComponent implements OnInit, OnDestroy {
 
-  public alumnos: Alumno[] = []; //cambio esta linea para que el array de alumnos venga desde un observable
-  public alumnosSubscription!: Subscription;
-  public columnas: string[] = ['nombreCompleto', 'fechaNacimiento', 'email', 'acciones'];
-  public dataSource: MatTableDataSource<Alumno> = new MatTableDataSource<Alumno>();
+    // public cursos$!: Observable<Curso[]>;
+    public cargandoAlumnos$!: Observable<boolean>;
+    public dataSource!: MatTableDataSource<Alumno>;
+    public alumnos: Alumno[] = []; //cambio esta linea para que el array de alumnos venga desde un observable
+    public alumnosSubscription!: Subscription;
+    public columnas: string[] = ['nombreCompleto', 'fechaNacimiento', 'email', 'acciones'];
+    //public dataSource: MatTableDataSource<Alumno> = new MatTableDataSource<Alumno>();
 
-  constructor(
-    private alumnosService: AlumnosService,
-    private router: Router
-  ) { }
+    constructor(
+        private storeAlumnos: Store<AlumnoState>,
+        private alumnosService: AlumnosService,
+        private router: Router
+    ) {
+        this.storeAlumnos.dispatch(cargarAlumnos());
+    }
 
-  ngOnInit(): void {
-    this.populateTable();
+    ngOnInit(): void {
+        this.storeAlumnos.select(selectAlumnos).subscribe((alumnos: Alumno[]) => {
+            this.dataSource =  new MatTableDataSource(alumnos);
+        });
+        this.cargandoAlumnos$ = this.storeAlumnos.select(selectAlumnosCargando);
+    }
 
-    // this.alumnosSubscription = this.alumnosService.obtenerAlumnos().pipe(
-    //         map( (alumnos: Alumno[]) => alumnos.filter( (item) => item.apellido == 'Rojas'))
-    //     ).subscribe({
-    //         next: (data) => this.dataSource.data = data
-    //     })
-  }
+    public filtrar(event: Event) {
+        const valor = (event.target as HTMLInputElement).value;
 
-  public populateTable() :void {
-    this.alumnosSubscription = this.alumnosService.obtenerAlumnos().subscribe((data) => {
-        this.dataSource = new MatTableDataSource(data);
-    })
-  }
+        this.dataSource.filter = valor.trim().toLocaleLowerCase();
+    }
 
-  public filtrar(event: Event){
-    const valor = (event.target as HTMLInputElement).value;
+    editarAlumno(alumno: Alumno) {
+        this.router.navigate(['alumnos/editar', alumno]);
+    }
 
-    this.dataSource.filter = valor.trim().toLocaleLowerCase();
-  }
+    eliminarAlumno(alumno: Alumno) {
+        this.storeAlumnos.dispatch(eliminarAlumno({alumno}));
+    }
 
-  editarAlumno(alumno: Alumno){
-    this.router.navigate(['alumnos/editar', alumno]);
-  }
-
-  eliminarAlumno(id: number){
-    this.alumnosService.eliminarAlumno(id).subscribe((a) => {
-        this.populateTable();
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.alumnosSubscription.unsubscribe();
-  }
+    ngOnDestroy(): void {
+        //this.alumnosSubscription.unsubscribe();
+    }
 }

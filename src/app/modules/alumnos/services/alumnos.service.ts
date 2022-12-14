@@ -42,11 +42,10 @@ export class AlumnosService {
         );
     }
 
-    public eliminarAlumno(id: number){
-        return this.http.delete<Alumno>(`${this.base_url}/alumnos/${id}`).pipe(
+    public eliminarAlumno(alumno: Alumno){
+        return this.http.delete<Alumno>(`${this.base_url}/alumnos/${alumno.id}`).pipe(
             catchError(this.handlerError)
         );
-        // console.log(this.alumnos);
         // let indice = this.alumnos.findIndex((item: Alumno) => item.id === id);
     
         // if(indice > -1){
