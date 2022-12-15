@@ -35,6 +35,7 @@ export class InscripcionesListadoComponent implements OnInit {
     public inscripcionSubscription!: Subscription;
     //public dataSource: MatTableDataSource<IInscripcion> = new MatTableDataSource<IInscripcion>();
 
+    public storeInscripcionesSubscription!: Subscription;
     public session!: ISession;
     public usuarioActivo!: IUsuario;
     public sessionSubscription!: Subscription;
@@ -66,7 +67,7 @@ export class InscripcionesListadoComponent implements OnInit {
                 this.usuarioActivo = session.usuarioActivo!
             });
 
-        this.storeInscripciones.select(selectInscripciones).subscribe((inscripciones: IInscripcion[]) => {
+        this.storeInscripcionesSubscription = this.storeInscripciones.select(selectInscripciones).subscribe((inscripciones: IInscripcion[]) => {
 
             /**Si es usuario comun solo devuelve sus inscripciones**/
             if (this.usuarioActivo && this.usuarioActivo.admin == false) {
@@ -117,6 +118,7 @@ export class InscripcionesListadoComponent implements OnInit {
     }
 
     ngOnDestroy(): void {
-        this.sessionSubscription.unsubscribe();
+        if(this.sessionSubscription) this.sessionSubscription.unsubscribe();
+        if(this.storeInscripcionesSubscription) this.storeInscripcionesSubscription.unsubscribe();
     }
 }

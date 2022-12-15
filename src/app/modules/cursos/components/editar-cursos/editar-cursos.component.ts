@@ -3,7 +3,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Curso } from 'src/app/models/curso';
-import { CursosService } from 'src/app/modules/cursos/services/cursos.service';
 import { editarCurso } from '../../state/cursos.actions';
 import { CursoState } from '../../state/cursos.reducer';
 
@@ -25,7 +24,6 @@ export class EditarCursosComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        //private cursosService: CursosService,
         private storeCursos: Store<CursoState>,
         private router: Router,
         private activatedRoute: ActivatedRoute

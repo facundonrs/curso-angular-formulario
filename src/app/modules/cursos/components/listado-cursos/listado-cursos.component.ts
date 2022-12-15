@@ -30,6 +30,7 @@ export class ListadoCursosComponent implements OnInit {
 
     public session!: ISession;
     public sessionSubscription!: Subscription;
+    public storeInscripcionesSubscription!: Subscription;
 
     constructor(
         private storeCursos: Store<CursoState>,
@@ -66,7 +67,7 @@ export class ListadoCursosComponent implements OnInit {
         this.cursosYaInscripto = [];
 
         /****BUSCO LAS INSCRIPCIONES DEL ALUMNO */
-        this.storeInscripciones.select(selectInscripciones).subscribe((inscripciones: IInscripcion[]) => {
+        this.storeInscripcionesSubscription = this.storeInscripciones.select(selectInscripciones).subscribe((inscripciones: IInscripcion[]) => {
             
             if (this.session.usuarioActivo && this.session.usuarioActivo.admin == false) {
                 inscripciones = inscripciones.filter((item: IInscripcion) => item.alumno.id == this.session.usuarioActivo?.id)
@@ -93,6 +94,11 @@ export class ListadoCursosComponent implements OnInit {
             this._snackBar.open('Inscripción generada!', 'Cerrar');
         }
 
+    }
+
+    ngOnDestroy(): void {
+        if( this.sessionSubscription ) this.sessionSubscription.unsubscribe();
+        if( this.storeInscripcionesSubscription ) this.storeInscripcionesSubscription.unsubscribe();
     }
 
 }

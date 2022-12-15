@@ -46,4 +46,8 @@ export class InicioComponent implements OnInit {
     public verInscripciones() {
         this.router.navigate(['inscripciones']);
     }
+
+    ngOnDestroy(): void {
+        if( this.sessionSubscription ) this.sessionSubscription.unsubscribe();
+    }
 }

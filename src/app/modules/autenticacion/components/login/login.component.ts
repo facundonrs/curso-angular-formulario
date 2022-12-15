@@ -22,8 +22,6 @@ export class LoginComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private router: Router,
-        private sessionService: SessionService,
         private storeSession: Store<SessionState>,
     ) { }
 

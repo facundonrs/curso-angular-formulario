@@ -21,13 +21,12 @@ export class ListadoAlumnosComponent implements OnInit, OnDestroy {
     public cargandoAlumnos$!: Observable<boolean>;
     public dataSource!: MatTableDataSource<Alumno>;
     public alumnos: Alumno[] = []; //cambio esta linea para que el array de alumnos venga desde un observable
-    public alumnosSubscription!: Subscription;
+    //public alumnosSubscription!: Subscription;
     public columnas: string[] = ['nombreCompleto', 'fechaNacimiento', 'email', 'acciones'];
     //public dataSource: MatTableDataSource<Alumno> = new MatTableDataSource<Alumno>();
 
     constructor(
         private storeAlumnos: Store<AlumnoState>,
-        private alumnosService: AlumnosService,
         private router: Router
     ) {
         this.storeAlumnos.dispatch(cargarAlumnos());

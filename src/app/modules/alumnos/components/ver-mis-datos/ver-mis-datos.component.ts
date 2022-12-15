@@ -30,4 +30,9 @@ export class VerMisDatosComponent implements OnInit {
             });
     }
 
+    ngOnDestroy(): void {
+        if(this.sessionSubscription) this.sessionSubscription.unsubscribe();
+        
+    }
+
 }

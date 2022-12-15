@@ -36,6 +36,7 @@ export class EditarAlumnosComponent implements OnInit {
 
     public usuarioActivo!: Alumno;
     public sessionSubscription!: Subscription;
+    public routeParamSubscription!: Subscription;
 
     public edadValidator(): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
@@ -91,7 +92,7 @@ export class EditarAlumnosComponent implements OnInit {
             })
         )
 
-        routeParam$.subscribe(
+        this.routeParamSubscription = routeParam$.subscribe(
             (parametros) => {
                 this.id = parseInt(parametros.get('id') || '0');
                 this.formulario.controls.nombre.setValue(parametros.get('nombre'));
@@ -179,6 +180,12 @@ export class EditarAlumnosComponent implements OnInit {
         }else{
             this.router.navigate(['inicio']);
         }
+    }
+
+    ngOnDestroy(): void {
+        if(this.sessionSubscription) this.sessionSubscription.unsubscribe();
+        if(this.routeParamSubscription) this.routeParamSubscription.unsubscribe();
+        
     }
 
 }
